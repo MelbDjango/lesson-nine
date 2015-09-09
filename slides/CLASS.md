@@ -59,51 +59,107 @@ By now, we should be familiar with the following:
 * sqlflush
   * Shows the SQL that if run will reset the database to the initial installation state (what "flush" runs)
 
+---
+
+## Writing your own management commands
+
+* Automate regular housekeeping tasks
+* 
 
 ---
 
-## Rewinding Database Migrations
-
-Check auth app migrations state
-
-```
-$ python manage.py showmigrations auth
-auth
- [X] 0001_initial
- [X] 0002_alter_permission_name_max_length
- [X] 0003_alter_user_email_max_length
- [X] 0004_alter_user_username_opts
- [X] 0005_alter_user_last_login_null
- [X] 0006_require_contenttypes_0002
-```
-
-How to undo last 2 migrations in auth app?
+# Sessions & Cookies
 
 ---
 
-## Rewinding Database Migrations
+## Sessions
 
-Take auth app to migration 0004
+* Track information between web requests
+* Can be stored multiple ways. RAM, Database, Disk
+* 
 
-```
-$ python manage.py migrate auth 0004
-Operations to perform:
-  Target specific migration: 0004_alter_user_username_opts, from auth
-Running migrations:
-  Rendering model states... DONE
-  Unapplying auth.0006_require_contenttypes_0002... OK
-  Unapplying auth.0005_alter_user_last_login_null... OK
-```
+---
 
-App migration state after operation
+## Cookies
 
-```
-$ python manage.py showmigrations auth
-auth
- [X] 0001_initial
- [X] 0002_alter_permission_name_max_length
- [X] 0003_alter_user_email_max_length
- [X] 0004_alter_user_username_opts
- [ ] 0005_alter_user_last_login_null
- [ ] 0006_require_contenttypes_0002
-```
+* Used by the web server to reference session specific information
+* 
+
+---
+
+# Middleware
+
+---
+
+## Custom Middleware
+
+* Perform custom actions with every request
+* 
+
+---
+
+# Logging
+
+---
+
+## Django Logging Configuration
+
+* 
+
+---
+
+# Cache
+
+---
+
+## Cache Uses
+
+* Provide a faster delivery mechanism for commonly accessed information
+*
+
+---
+
+## Cache storage
+
+* Like sessions can be stored in RAM, Database, Disk
+* 
+
+---
+
+# Signalling
+
+---
+
+## Model Signals
+
+pre_init, post_init, pre_save, post_save, pre_delete, post_delete, m2m_changed, class_prepared
+
+## Management signals
+
+pre_migrate, pre_syncdb, post_migrate, post_syncdb
+
+---
+
+## Request/Response Signals
+
+request_started, request_finished, got_request_exception
+
+## Test signals
+
+setting_changed, template_rendered
+
+## Database Wrappers
+
+connection_created
+
+---
+
+## Signal handlers
+
+---
+
+# Custom template tags
+
+---
+
+# Present your project at MelbDjango
