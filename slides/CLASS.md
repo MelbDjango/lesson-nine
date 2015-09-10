@@ -1,20 +1,20 @@
-## MelbDjango School
+### MelbDjango School
 
 ### Lesson Nine — Advanced Django Topics
 
 ---
 
-## WIFI
+### WIFI
 
 Common Code / cc&20!4@
 
 ---
 
-# Management Commands
+## Management Commands
 
 ---
 
-## Familiar Management Commands
+### Familiar Management Commands
 
 By now, we should be familiar with the following:
 
@@ -31,7 +31,7 @@ By now, we should be familiar with the following:
 
 ---
 
-## Other Useful Commands
+### Other Useful Commands
 
 * createsuperuser
   * Generate an additional superuser (good when picking up badly documented projects)
@@ -48,7 +48,7 @@ By now, we should be familiar with the following:
 
 ---
 
-##  Useful Commands Continued
+###  Useful Commands Continued
 
 * showmigrations
   * Shows the migrated state for one or all apps (equivalent to migrate --list)
@@ -61,19 +61,19 @@ By now, we should be familiar with the following:
 
 ---
 
-## Writing your own management commands
+### Writing your own management commands
 
 * Automate regular housekeeping tasks
 
 ---
 
-# Sessions & Cookies
+## Sessions & Cookies
 
 * Store state in a stateless world
 
 ---
 
-# Sessions
+## Sessions
 
 * Track information between web requests
 * Can be stored multiple ways. RAM, Database, Disk, Cookies
@@ -81,28 +81,28 @@ By now, we should be familiar with the following:
 
 ---
 
-# Cookies
+## Cookies
 
 * Information stored in the users browser
 * Visible to the user
 
 ---
 
-# Cookies vs. Sessions
+## Cookies vs. Sessions
 
 * Cookies are quick - no DB hit
 * Sessions are secure - not visible to User
 
 ---
 
-# Middleware
+## Middleware
 
 * Perform actions at different stages of request/response
 * Independant of which view is used
 
 ---
 
-# Middleware Stages
+## Middleware Stages
 
 <dl>
   <dt> Request </dt>
@@ -119,14 +119,14 @@ By now, we should be familiar with the following:
 
 ---
 
-## Order is important!
+### Order is important!
 
 * Request / View called in order declared
 * Others called in _reverse_ order
 
 ---
 
-# Middleware - Built in
+## Middleware - Built in
 
 * Site-wide caching
 * "Common"
@@ -147,7 +147,7 @@ By now, we should be familiar with the following:
 
 ---
 
-# Logging
+## Logging
 
 * Keep track of what's going on inside
 * Selectable "levels" to tune verbosity
@@ -167,7 +167,7 @@ log.debug('We got here!')
 
 ---
 
-# Logging components
+## Logging components
 
 * Filters
 * Loggers
@@ -176,7 +176,7 @@ log.debug('We got here!')
 
 ---
 
-# Logging Levels
+## Logging Levels
 
 | Level    | Numeric value |
 |----------|--------------:|
@@ -189,7 +189,7 @@ log.debug('We got here!')
 
 ---
 
-# Logging: Filters
+## Logging: Filters
 
 * Used in both Loggers and Handlers
 * Selectively discard some messages
@@ -197,13 +197,13 @@ log.debug('We got here!')
 
 ---
 
-# Logging: Formatters
+## Logging: Formatters
 
 * Control how logged messages are formatted
 
 ---
 
-# Logging: Loggers
+## Logging: Loggers
 
 * Where messages come into the logging pipeline
 * Names act as "prefix"
@@ -214,7 +214,7 @@ log.debug('We got here!')
 
 ---
 
-# Logging: Handlers
+## Logging: Handlers
 
 * Determine where logged messages go [file, syslog, email]
 * Can have a "level"
@@ -223,13 +223,13 @@ log.debug('We got here!')
 
 ---
 
-# How does it look?
+## How does it look?
 
 ![](./img/python_logging.svg)
 
 ---
 
-## Django Logging Configuration
+### Django Logging Configuration
 
 * LOGGING setting
 
@@ -285,7 +285,7 @@ log.debug('We got here!')
 
 ---
 
-# Cache
+## Cache
 
 Pro: Avoid work by reusing results
 
@@ -298,7 +298,7 @@ Con: Working with stale data
 
 ---
 
-# Cache Interface
+## Cache Interface
 
 * Acts mostly like a dict
   * x = cache[key]
@@ -313,7 +313,7 @@ cache.delete(key, [version=None])
 
 ---
 
-## Cache storage
+### Cache storage
 
 Django provides abstract interface across pluggable backends.
 
@@ -328,7 +328,7 @@ Django provides abstract interface across pluggable backends.
 
 ---
 
-# Signalling
+## Signalling
 
 * Allows code to be notified of events
 * Dynamically un/register callbacks
@@ -336,7 +336,7 @@ Django provides abstract interface across pluggable backends.
 
 ---
 
-## Model Signals
+### Model Signals
 
 * pre_init
 * post_init
@@ -349,7 +349,7 @@ Django provides abstract interface across pluggable backends.
 
 ---
 
-## Management signals
+### Management signals
 
 * pre_migrate
 * pre_syncdb
@@ -358,7 +358,7 @@ Django provides abstract interface across pluggable backends.
 
 ---
 
-## Request/Response Signals
+### Request/Response Signals
 
 * request_started
 * request_finished
@@ -366,18 +366,18 @@ Django provides abstract interface across pluggable backends.
 
 ---
 
-## Test signals
+### Test signals
 
 * setting_changed
 * template_rendered
 
-## Database Wrappers
+### Database Wrappers
 
 * connection_created
 
 ---
 
-## Signal handlers
+### Signal handlers
 
 ```
 Signal.connect(receiver, sender=None, weak=True, dispatch_uid=None)
@@ -407,7 +407,7 @@ def my_callback(sender, **kwargs):
 
 ---
 
-# Custom template tags and filters
+## Custom template tags and filters
 
 "work" doesn't belong in templates
 
@@ -418,7 +418,7 @@ So:
 
 ---
 
-# A simple filter
+## A simple filter
 
 ```
 from django import template
@@ -434,7 +434,7 @@ def frobnicate(value):
 
 ---
 
-# Tag shortcuts
+## Tag shortcuts
 
 Simple Tags
 ```
@@ -454,7 +454,7 @@ def menu(...):
 
 ---
 
-# Tag shortcuts
+## Tag shortcuts
 
 Assignment Tag
 ```
@@ -470,4 +470,4 @@ def do_something(...):
 
 ---
 
-# Present your project at MelbDjango
+## Present your project at MelbDjango
