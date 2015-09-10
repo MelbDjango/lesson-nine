@@ -70,31 +70,68 @@ By now, we should be familiar with the following:
 
 # Sessions & Cookies
 
+* When do I use which?
+
 ---
 
 ## Sessions
 
 * Track information between web requests
-* Can be stored multiple ways. RAM, Database, Disk
-* 
+* Can be stored multiple ways. RAM, Database, Disk, Cookies
+* Not visible to the user
 
 ---
 
 ## Cookies
 
-* Used by the web server to reference session specific information
-* 
+* Information stored in the users browser
+* Visible to the user
 
 ---
 
 # Middleware
 
+* Perform actions at different stages of request/response
+* Independant of which view is used
+
+Built in:
+
+* Site-wide caching
+* "Common"
+  * Restrict user agents
+  * Append slash / prepend WWW
+  * E-Tags
+* Broken Links Email
+* GZip
+* Conditional GET
+* Locale
+* Messages
+* Security
+* Session
+* Site
+* Authentication
+* CSRF Protection
+* X-Frame Options (click-jacking protection)
+
 ---
 
-## Custom Middleware
+# Middleware Stages
 
-* Perform custom actions with every request
-* 
+Request::
+  Before matching URL patterns
+View::
+  After matching URL pattern, before calling view
+Exception::
+  If the view results in an exception
+Template Response::
+  If the view returns a TemplateResponse
+Response::
+  All responses
+
+## Order is important!
+
+* Request / View called in order declared
+* Others called in _reverse_ order
 
 ---
 
