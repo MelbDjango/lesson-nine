@@ -178,14 +178,14 @@ log.debug('We got here!')
 
 # Logging Levels
 
-| Level    | Numeric value
-|----------|--------------
-| CRITICAL | 50
-| ERROR    | 40
-| WARNING  | 30
-| INFO     | 20
-| DEBUG    | 10
-| NOTSET   | 0
+| Level    | Numeric value |
+|----------|--------------:|
+| CRITICAL | 50            |
+| ERROR    | 40            |
+| WARNING  | 30            |
+| INFO     | 20            |
+| DEBUG    | 10            |
+| NOTSET   | 0             |
 
 ---
 
@@ -281,55 +281,186 @@ log.debug('We got here!')
 
 # Cache
 
+Pro: Avoid work by reusing results
+
+Con: Working with stale data
+
+> There are only 2 hard problems in Computer Science:
+> 1. Naming things
+> 2. Cache invalidation
+> 3. Off-by-one errors
+
 ---
 
-## Cache Uses
+# Cache Interface
 
-* Provide a faster delivery mechanism for commonly accessed information
-*
+* Acts mostly like a dict
+  * x = cache[key]
+  * cache[key] = value)
+* Keys can have a timeout
+
+```
+cache.get(key, [default=None,] [version=None])
+cache.set(key, value, [timeout=DEFAULT_TIMEOUT,] [version=None])
+cache.delete(key, [version=None])
+```
 
 ---
 
 ## Cache storage
 
-* Like sessions can be stored in RAM, Database, Disk
-* 
+Django provides abstract interface across pluggable backends.
+
+* in-memory (*)
+* file
+* DB 
+* memcached
+
+3rd party:
+
+* redis
 
 ---
 
 # Signalling
 
+* Allows code to be notified of events
+* Dynamically un/register callbacks
+* Callbacks are _synchronous_
+
 ---
 
 ## Model Signals
 
-pre_init, post_init, pre_save, post_save, pre_delete, post_delete, m2m_changed, class_prepared
+* pre_init
+* post_init
+* pre_save
+* post_save
+* pre_delete
+* post_delete
+* m2m_changed
+* class_prepared
+
+---
 
 ## Management signals
 
-pre_migrate, pre_syncdb, post_migrate, post_syncdb
+* pre_migrate
+* pre_syncdb
+* post_migrate
+* post_syncdb
 
 ---
 
 ## Request/Response Signals
 
-request_started, request_finished, got_request_exception
+* request_started
+* request_finished
+* got_request_exception
+
+---
 
 ## Test signals
 
-setting_changed, template_rendered
+* setting_changed
+* template_rendered
 
 ## Database Wrappers
 
-connection_created
+* connection_created
 
 ---
 
 ## Signal handlers
 
+```
+Signal.connect(receiver, sender=None, weak=True, dispatch_uid=None)
+```
+
+A simple handler:
+```
+def my_callback(sender, **kwargs):
+    print("Request finished!")
+```
+
+Listening for a signal:
+```
+from django.core.signals import request_finished
+
+request_finished.connect(my_callback)
+```
+Alternatively:
+```
+from django.core.signals import request_finished
+from django.dispatch import receiver
+
+@receiver(request_finished)
+def my_callback(sender, **kwargs):
+    print("Request finished!")
+```
+
 ---
 
-# Custom template tags
+# Custom template tags and filters
+
+"work" doesn't belong in templates
+
+So:
+* do it in your view
+* do it in your objects
+* do it in a tag/filter
+
+---
+
+# A simple filter
+
+```
+from django import template
+
+from myapp.utils import frob
+
+register = template.Library()
+
+@register.filter
+def frobnicate(value):
+    return frob(value)
+```
+
+---
+
+# Tag shortcuts
+
+Simple Tags
+```
+@register.simple_tag
+def mytag(arg, arg1, kwarg=None):
+   ...
+```
+
+Inclusion Tags
+```
+@register.inclusion_tag('my/template.html'):
+def menu(...):
+    return {
+        ... extra context ...
+    }
+```
+
+---
+
+# Tag shortcuts
+
+Assignment Tag
+```
+@register.assignment_tag
+def do_something(...):
+    return some_value
+```
+
+```
+{% do_something .... as foo %}
+{{ foo }}
+```
 
 ---
 
