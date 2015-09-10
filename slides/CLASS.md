@@ -19,7 +19,7 @@ Common Code / cc&20!4@
 By now, we should be familiar with the following:
 
 * help
-* help <subcommand>
+* help {subcommand}
 * runserver
 * test
 * makemigrations
@@ -64,17 +64,16 @@ By now, we should be familiar with the following:
 ## Writing your own management commands
 
 * Automate regular housekeeping tasks
-* 
 
 ---
 
 # Sessions & Cookies
 
-* When do I use which?
+* Store state in a stateless world
 
 ---
 
-## Sessions
+# Sessions
 
 * Track information between web requests
 * Can be stored multiple ways. RAM, Database, Disk, Cookies
@@ -82,10 +81,17 @@ By now, we should be familiar with the following:
 
 ---
 
-## Cookies
+# Cookies
 
 * Information stored in the users browser
 * Visible to the user
+
+---
+
+# Cookies vs. Sessions
+
+* Cookies are quick - no DB hit
+* Sessions are secure - not visible to User
 
 ---
 
@@ -94,7 +100,33 @@ By now, we should be familiar with the following:
 * Perform actions at different stages of request/response
 * Independant of which view is used
 
-Built in:
+---
+
+# Middleware Stages
+
+<dl>
+  <dt> Request </dt>
+  <dd> Before matching URL patterns </dd>
+  <dt> View </dt>
+  <dd> After matching URL pattern, before calling view </dd>
+  <dt> Exception </dt>
+  <dd> If the view results in an exception </dd>
+  <dt> Template Response (i.e. CBV)</dt>
+  <dd> If the view returns a TemplateResponse </dd>
+  <dt> Response </dt>
+  <dd> All responses </dd>
+</dl>
+
+---
+
+## Order is important!
+
+* Request / View called in order declared
+* Others called in _reverse_ order
+
+---
+
+# Middleware - Built in
 
 * Site-wide caching
 * "Common"
@@ -115,33 +147,135 @@ Built in:
 
 ---
 
-# Middleware Stages
+# Logging
 
-Request::
-  Before matching URL patterns
-View::
-  After matching URL pattern, before calling view
-Exception::
-  If the view results in an exception
-Template Response::
-  If the view returns a TemplateResponse
-Response::
-  All responses
+* Keep track of what's going on inside
+* Selectable "levels" to tune verbosity
+* Tremendously configurable
+  * Which means more complicated
+* Easy to use!
 
-## Order is important!
+```
+import logging
+log = logging.getLogger(__name__)
 
-* Request / View called in order declared
-* Others called in _reverse_ order
+...
+
+log.debug('We got here!')
+
+```
 
 ---
 
-# Logging
+# Logging components
+
+* Filters
+* Loggers
+* Handlers
+* Formatters
+
+---
+
+# Logging Levels
+
+| Level    | Numeric value
+|----------|--------------
+| CRITICAL | 50
+| ERROR    | 40
+| WARNING  | 30
+| INFO     | 20
+| DEBUG    | 10
+| NOTSET   | 0
+
+---
+
+# Logging: Filters
+
+* Used in both Loggers and Handlers
+* Selectively discard some messages
+  * e.g. Django has django.utils.log.RequireDebugFalse
+
+---
+
+# Logging: Formatters
+
+* Control how logged messages are formatted
+
+---
+
+# Logging: Loggers
+
+* Where messages come into the logging pipeline
+* Names act as "prefix"
+* Have a "level"
+  * Acts as a "squelch", or minimum
+* Can have filters
+* Specify a list of Handlers
+
+---
+
+# Logging: Handlers
+
+* Determine where logged messages go [file, syslog, email]
+* Can have a "level"
+* Can have filters
+* Can have a formatter
 
 ---
 
 ## Django Logging Configuration
 
-* 
+* LOGGING setting
+
+```
+{
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt': "%d/%b/%Y %H:%M:%S"
+        },
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+    'handlers': {
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'filters': ['require_debug_false'],
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'accounts': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'utils': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    }
+}
+```
+
 
 ---
 
