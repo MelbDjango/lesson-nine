@@ -223,6 +223,12 @@ log.debug('We got here!')
 
 ---
 
+# How does it look?
+
+![](./img/python_logging.svg)
+
+---
+
 ## Django Logging Configuration
 
 * LOGGING setting
